@@ -19,6 +19,8 @@ from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.preprocessing.image import ImageDataGenerator, load_img, img_to_array
 from tensorflow.keras.applications import vgg16
 from tensorflow.keras.applications.vgg16 import VGG16
+from sklearn.metrics import confusion_matrix, classification_report, f1_score, precision_score
+
 
 # Set image dimensions, batch size, and other hyperparameters
 img_rows, img_cols = 224, 224    # Image dimensions to be fed to the network
@@ -215,6 +217,24 @@ test_labels_enc = np.array([class2num(label) for label in test_labels])
 # Obtain predictions (probabilities) from the model on test images
 predictions = model.predict(test_imgs_scaled, verbose=0)
 predicted_labels = np.array([num2class(pred) for pred in predictions.flatten()])
+
+# Convert probabilities to binary predictions
+predicted_binary = (predictions > 0.5).astype(int)
+
+# Confusion matrix
+conf_matrix = confusion_matrix(test_labels_enc, predicted_binary)
+print("Confusion Matrix:\n", conf_matrix)
+
+# Precision and F1 Score
+precision = precision_score(test_labels_enc, predicted_binary)
+f1 = f1_score(test_labels_enc, predicted_binary)
+print(f"\nPrecision: {precision:.4f}")
+print(f"F1 Score : {f1:.4f}")
+
+# Full classification report
+report = classification_report(test_labels_enc, predicted_binary, target_names=["Organic", "Recyclable"])
+print("\nClassification Report:\n", report)
+
 
 # Display a few prediction results
 print("Sample predictions on test images:")
