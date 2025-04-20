@@ -50,21 +50,21 @@ If using a GPU for faster training:
 
 2. Prepare the Dataset
 
-DATASET/
+``DATASET/
 ├── TRAIN/
 │   ├── O/    # Organic training images
 │   └── R/    # Recyclable training images
 └── TEST/
     ├── O/    # Organic test images
-    └── R/    # Recyclable test images
+    └── R/    # Recyclable test images``
 
 3. Run the Scripts
 
-To train and evaluate using VGG16: python vgg16_script.py
+To train and evaluate using VGG16: `python vgg16_script.py`
 
-To train and evaluate using EfficientNetB0: python efficientnet_script.py
+To train and evaluate using EfficientNetB0: `python efficientnet_script.py`
 
-To train and evaluate using ResNet50: python resnet50_script.py
+To train and evaluate using ResNet50: `python resnet50_script.py`
 
 # Output and Evaluation
 
