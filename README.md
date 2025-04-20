@@ -13,7 +13,7 @@ ResNet50
 Each model is trained on a custom waste dataset and evaluated using metrics like Accuracy, F1-Score, Precision, AUC, ROC Curve, and Confusion Matrix.
 
 # Project Structure 
-
+```
 🔺 vgg16_script.py         # Waste classification using VGG16
 
 🔺 efficientnet_script.py  # Waste classification using EfficientNetB0
@@ -28,7 +28,7 @@ Each model is trained on a custom waste dataset and evaluated using metrics like
 │       🔺 O/              # Organic test images
 │       🔺 R/              # Recyclable test images
 🔺 README.md
-
+```
 # Requirements
 
 Install the necessary Python libraries using:
@@ -49,15 +49,15 @@ If using a GPU for faster training:
 
 
 2. Prepare the Dataset
-
-```DATASET/
+```
+ DATASET/
 ├── TRAIN/
 │   ├── O/    # Organic training images
 │   └── R/    # Recyclable training images
 └── TEST/
     ├── O/    # Organic test images
-    └── R/    # Recyclable test images```
-
+    └── R/    # Recyclable test images 
+```
 3. Run the Scripts
 
 To train and evaluate using VGG16: `python vgg16_script.py`
