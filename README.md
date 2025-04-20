@@ -50,13 +50,13 @@ If using a GPU for faster training:
 
 2. Prepare the Dataset
 
-``DATASET/
+```DATASET/
 ├── TRAIN/
 │   ├── O/    # Organic training images
 │   └── R/    # Recyclable training images
 └── TEST/
     ├── O/    # Organic test images
-    └── R/    # Recyclable test images``
+    └── R/    # Recyclable test images```
 
 3. Run the Scripts
 
