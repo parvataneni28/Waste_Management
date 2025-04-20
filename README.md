@@ -13,9 +13,13 @@ ResNet50
 Each model is trained on a custom waste dataset and evaluated using metrics like Accuracy, F1-Score, Precision, AUC, ROC Curve, and Confusion Matrix.
 
 # Project Structure 
+
 🔺 vgg16_script.py         # Waste classification using VGG16
+
 🔺 efficientnet_script.py  # Waste classification using EfficientNetB0
+
 🔺 resnet50_script.py      # Waste classification using ResNet50
+
 🔺 DATASET/
 │   🔺 TRAIN/
 │   │   🔺 O/              # Organic training images
@@ -26,16 +30,21 @@ Each model is trained on a custom waste dataset and evaluated using metrics like
 🔺 README.md
 
 # Requirements
+
 Install the necessary Python libraries using:
+
 pip install tensorflow keras numpy pandas matplotlib scikit-learn
 
 If using a GPU for faster training:
+
 pip install tensorflow-gpu
 
 # How to Run the Scripts
 
 1. Clone the Repository
+
 git clone https://github.com/your-username/waste-classification.git
+
 cd waste-classification
 
 
