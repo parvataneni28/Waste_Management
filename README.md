@@ -80,7 +80,7 @@ Plot Training/Validation Loss and AUC curves
 
 Evaluate the model on a separate test set
 
-Display:
+## Display:
 
 Confusion Matrix
 
