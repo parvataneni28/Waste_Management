@@ -33,19 +33,19 @@ Each model is trained on a custom waste dataset and evaluated using metrics like
 
 Install the necessary Python libraries using:
 
-pip install tensorflow keras numpy pandas matplotlib scikit-learn
+`pip install tensorflow keras numpy pandas matplotlib scikit-learn`
 
 If using a GPU for faster training:
 
-pip install tensorflow-gpu
+`pip install tensorflow-gpu`
 
 # How to Run the Scripts
 
 1. Clone the Repository
 
-git clone https://github.com/your-username/waste-classification.git
+`git clone https://github.com/your-username/waste-classification.git`
 
-cd waste-classification
+`cd waste-classification`
 
 
 2. Prepare the Dataset
