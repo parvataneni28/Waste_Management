@@ -21,6 +21,10 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator, load_img, i
 from tensorflow.keras.applications import EfficientNetB0  # Using EfficientNetB0 instead of VGG16
 from sklearn.metrics import confusion_matrix, classification_report, f1_score, precision_score
 
+import shap
+from lime import lime_image
+from skimage.segmentation import mark_boundaries
+
 
 # Set image dimensions, batch size, and other hyperparameters
 img_rows, img_cols = 224, 224    # Image dimensions to be fed to the network
@@ -274,4 +278,51 @@ plt.xlabel('False Positive Rate')
 plt.ylabel('True Positive Rate')
 plt.title('Receiver Operating Characteristic (ROC) Curve')
 plt.legend(loc='best')
+plt.show()
+
+
+# Select a few images to explain (use your already scaled test images)
+n_background = min(20, test_imgs_scaled.shape[0])   # pick 20 or whatever is safe
+background = test_imgs_scaled[np.random.choice(test_imgs_scaled.shape[0], n_background, replace=False)]
+explainer = shap.GradientExplainer(model, background)
+
+# Pick a few images to explain (e.g., first 5 test images)
+test_images_to_explain = test_imgs_scaled[:5]
+
+# Generate SHAP values
+shap_values = explainer.shap_values(test_images_to_explain)
+
+# Plot SHAP values
+shap.image_plot(shap_values, test_images_to_explain)
+
+# Create LIME explainer
+explainer = lime_image.LimeImageExplainer()
+
+# Choose an image to explain (e.g., the 2nd image)
+image_to_explain = test_imgs_scaled[2]
+
+# Define a prediction function for LIME (it needs to output probabilities)
+def predict_fn(images):
+    return model.predict(images)
+
+# Explain the image
+explanation = explainer.explain_instance(
+    image_to_explain,          # the image
+    predict_fn,                # prediction function
+    top_labels=2,              # top 2 labels
+    hide_color=0,              # what color to use for hidden parts
+    num_samples=1000           # number of samples for LIME to generate
+)
+
+# Get the explanation for the predicted label
+temp, mask = explanation.get_image_and_mask(
+    label=explanation.top_labels[0], 
+    positive_only=True, 
+    hide_rest=False
+)
+
+# Plot
+plt.imshow(mark_boundaries(temp, mask))
+plt.title('LIME explanation')
+plt.axis('off')
 plt.show()

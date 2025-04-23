@@ -19,9 +19,13 @@ from tensorflow.keras.layers import Dense, Flatten, Dropout, BatchNormalization
 from tensorflow.keras.callbacks import EarlyStopping
 from sklearn.metrics import confusion_matrix, classification_report, f1_score, precision_score
 
+import shap
+from lime import lime_image
+from skimage.segmentation import mark_boundaries
+
 img_rows, img_cols = 224, 224
 batch_size = 64
-n_epochs = 5
+n_epochs = 50
 validation_split = 0.2
 n_classes = 2
 seed = 10
@@ -141,7 +145,7 @@ for f in test_files:
     test_imgs.append(img_to_array(load_img(f, target_size=IMG_DIM)))
     test_labels.append(os.path.basename(os.path.dirname(f)))
 
-test_imgs = np.array(test_imgs) / 255.0
+test_imgs = np.array(test_imgs).astype('float32') / 255.0
 test_labels = np.array(test_labels)
 
 def class2num(label): return 0 if label == 'O' else 1
@@ -185,4 +189,51 @@ plt.xlabel("False Positive Rate")
 plt.ylabel("True Positive Rate")
 plt.title("ROC Curve")
 plt.legend()
+plt.show()
+
+
+# Select a few images to explain (use your already scaled test images)
+n_background = min(20, test_imgs.shape[0])   # pick 20 or whatever is safe
+background = test_imgs[np.random.choice(test_imgs.shape[0], n_background, replace=False)]
+explainer = shap.GradientExplainer(model, background)
+
+# Pick a few images to explain (e.g., first 5 test images)
+test_images_to_explain = test_imgs[:5]
+
+# Generate SHAP values
+shap_values = explainer.shap_values(test_images_to_explain)
+
+# Plot SHAP values
+shap.image_plot(shap_values, test_images_to_explain)
+
+# Create LIME explainer
+explainer = lime_image.LimeImageExplainer()
+
+# Choose an image to explain (e.g., the 2nd image)
+image_to_explain = test_imgs[2]
+
+# Define a prediction function for LIME (it needs to output probabilities)
+def predict_fn(images):
+    return model.predict(images)
+
+# Explain the image
+explanation = explainer.explain_instance(
+    image_to_explain,          # the image
+    predict_fn,                # prediction function
+    top_labels=2,              # top 2 labels
+    hide_color=0,              # what color to use for hidden parts
+    num_samples=1000           # number of samples for LIME to generate
+)
+
+# Get the explanation for the predicted label
+temp, mask = explanation.get_image_and_mask(
+    label=explanation.top_labels[0], 
+    positive_only=True, 
+    hide_rest=False
+)
+
+# Plot
+plt.imshow(mark_boundaries(temp, mask))
+plt.title('LIME explanation')
+plt.axis('off')
 plt.show()
