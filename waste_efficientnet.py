@@ -158,7 +158,7 @@ model.compile(
 # 5. TRAINING THE MODEL
 # ============================================================
 # Setup early stopping callback to avoid overfitting
-early_stopping = EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
+early_stopping = EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
 
 # Fit (train) the model.
 history = model.fit(

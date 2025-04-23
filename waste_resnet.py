@@ -106,7 +106,7 @@ model.compile(
 # ============================================================
 # 4. TRAINING
 # ============================================================
-early_stopping = EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
+early_stopping = EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
 
 history = model.fit(
     train_generator,
