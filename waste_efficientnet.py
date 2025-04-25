@@ -29,7 +29,7 @@ from skimage.segmentation import mark_boundaries
 # Set image dimensions, batch size, and other hyperparameters
 img_rows, img_cols = 224, 224    # Image dimensions to be fed to the network
 batch_size = 64                  # Batch size during training
-n_epochs = 5                     # Number of epochs for training
+n_epochs = 50                    # Number of epochs for training
 validation_split = 0.2           # Use 20% of training data for validation
 n_classes = 2                    # Number of classes (Organic and Recyclable)
 seed = 10                        # Seed for reproducibility
